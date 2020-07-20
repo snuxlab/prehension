@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <meta http-equiv="refresh" content="10"> -->
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Flask Index</title>
+</head>
+<body>
+
+<h1>Crowdedness Dashboard</h1>
+<h3>Location: Living Lab</h3>
+<p id="intro">Currently, this room is</p>
+{% if name == "n"%}
+<p id="crowded">{{result}}</p>
+{% elif name == "1"%}
+<p id="occupied">{{result}}</p>
+{% else %}
+<p id="empty">{{result}}</p>
+{% endif %}
+<p id="conf">Estimate: {{name}}, Confidence: {{precision}}&#37;</p>
+
+</body>
+</html>

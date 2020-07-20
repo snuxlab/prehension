@@ -1,0 +1,36 @@
+body {
+    text-align: center;
+    display: block;
+}
+
+#intro {
+    font-size: 1.5em;
+}
+
+#crowded {
+    margin: auto;
+    width: 500px;
+    padding: 40px 20px;
+    font-weight: bold;
+    background: red;
+    font-size: 3em;
+}
+
+#occupied {
+    margin: auto;
+    width: 500px;
+    padding: 40px 20px;
+    font-weight: bold;
+    background: yellow;
+    font-size: 3em;
+}
+
+#empty {
+    margin: auto;
+    width: 500px;
+    padding: 40px 20px;
+    font-weight: bold;
+    background: green;
+    font-size: 3em;
+    color: white;
+}
