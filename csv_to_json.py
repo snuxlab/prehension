@@ -4,6 +4,7 @@ import json
 # read csv file and convert it to dictionary
 df = pd.read_csv(r'C:\Users\cross\Documents\GitHub\prehension\csv_data\10sec_sensor_fix.csv')
 date = df["Date"].tolist()
+time = df["Time"].tolist()
 nop = df["NoP"].tolist()
 temp_dict = {"Date":date, "Time":time, "NoP":nop}
 
