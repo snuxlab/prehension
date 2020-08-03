@@ -3,7 +3,7 @@ import math
 from bs4 import BeautifulSoup
 from google.cloud import automl_v1beta1 as automl
 import os
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/Users/minjoon/Documents/GitHub/prehension/prehension_credential.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/Users/jp/Downloads/prehension_credential.json"
 
 # Google AutoML API function
 def deploy():
@@ -12,38 +12,73 @@ def deploy():
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    iframe_src = soup.find('iframe')['src']
+    iframes = soup.find_all('iframe')
 
+    #src_list stores each sensor's iframe source url
+    src_list = []
+    for iframe in iframes:
+        src_list.append(iframe['src'])
+
+    #우선은 센서1에 대해서만 진행 --> src_list[0] 이 Sensor 1 and so on...
     s = requests.Session()
-    r = s.get(f"http://15.164.250.196/{iframe_src}")
-
+    r = s.get(f"http://15.164.250.196/{src_list[0]}")
 
     soup = BeautifulSoup(r.content, "html.parser")
-    data_list=list(soup)[0]
-    data = data_list.split(',')
+    li = soup.prettify().split('\r\n')
 
-    SSIM_1 = round(1-float(data[3]), 2)
-    if int(data[4]) <= 0:
+    data_t = li[0].split(',')
+
+    SSIM_1 = round(1-float(data_t[3]), 2)
+    if int(data_t[4]) <= 0:
         log_Sound = 0
     else:
-        log_Sound = round(math.log(int(data[4])), 2)
-    MSE = round(float(data[2]),2)
-    PIR = int(data[6])
-    Radar = int(data[5])
+        log_Sound = round(math.log(int(data_t[4])), 2)
+    MSE = round(float(data_t[2]),2)
+    PIR = int(data_t[6])
+    Radar = int(data_t[5])
 
     final_list = [SSIM_1, log_Sound, MSE, PIR, Radar]
     print("Final List: ", final_list)
+
+
+    data_t10 = li[1].split(',')
+    data_t20 = li[2].split(',')
+    data_t30 = li[3].split(',')
+    data_t40 = li[4].split(',')
+    data_t50 = li[5].split(',')
+    moving_data = [data_t10, data_t20, data_t30, data_t40, data_t50]
+
+    MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar = 0, 0, 0, 0, 0
+    for data in moving_data:
+        MA_SSIM_1 += round(1-float(data[3]), 2)
+        if int(data[4]) <= 0:
+            MA_log_Sound += 0
+        else:
+            MA_log_Sound += round(math.log(int(data[4])), 2)
+        MA_MSE += round(float(data[2]),2)
+        MA_PIR += int(data[6])
+        MA_Radar += int(data[5])
+
+    MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar = round(MA_SSIM_1/5,2), round(MA_log_Sound/5,2), round(MA_MSE/5,2), round(MA_PIR/5,2), round(MA_Radar/5,2)
+
+    ma_final_list = [MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar]
+    print("MA Final List: ", ma_final_list)
 
     # Google AutoML API 
     # TODO(developer): Uncomment and set the following variables
     project_id = 'prehension-282501'
     compute_region = 'us-central1'
-    model_display_name = 'tensec_0_1_n'
-    inputs = {'1_SSIM': final_list[0],
-            'log_Sound': final_list[1],
+    model_display_name = 'moving_average_01n'
+    inputs = {'SSIM': final_list[0],
+            'Sound': final_list[1],
             'MSE': final_list[2],
             'PIR': final_list[3],
-            'Radar': final_list[4]
+            'Radar': final_list[4],
+            'MA_SSIM': ma_final_list[0],
+            'MA_Sound': ma_final_list[1],
+            'MA_Radar': ma_final_list[4],
+            'MA_PIR': ma_final_list[3],
+            'MA_MSE': ma_final_list[2]
             }
 
     client = automl.TablesClient(project=project_id, region=compute_region)
