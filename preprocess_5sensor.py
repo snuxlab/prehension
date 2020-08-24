@@ -39,14 +39,6 @@ df_sample_notworking = df_notworking.sample(n=3000, random_state=1)
 df_sample_working = df_working.sample(n=7000, random_state=1)
 df_sample_zero = pd.concat([df_sample_notworking, df_sample_working])
 
-# 데이터프레임 시간 타입 맞추기
-time_list = df_sample_zero["Time"].to_list()
-temp_list = []
-for line in time_list:
-  temp_list.append(line.strftime("%H:%M:%S"))
-
-df_sample_zero["Time"] = temp_list
-
 ###############################################  NoP 1명  ###############################################
 
 # 선정한 NoP로 필터링하기
@@ -68,4 +60,12 @@ df_sample_many = pd.concat([df_sample_012camera, df_345camera])
 ###########################################  여러 CSV 합치기  ###########################################
 
 df_sample_merge = pd.concat([df_sample_zero, df_sample_one, df_sample_many])
+
+# 데이터프레임 시간 타입 맞추기
+time_list = df_sample_merge["Time"].to_list()
+temp_list = []
+for line in time_list:
+  temp_list.append(line.strftime("%H:%M:%S"))
+
+df_sample_merge["Time"] = temp_list
 df_sample_merge.to_csv('sensor_sampled.csv', sep=',', encoding='utf-8')
