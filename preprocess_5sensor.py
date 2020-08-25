@@ -50,8 +50,8 @@ df_sample_one = df_one.sample(n=10000, random_state=1)
 ###############################################  NoP N명  ###############################################
 
 # 선정한 NoP로 필터링하기
-df_345camera = df[(df["Cam"] > 2) & (df["NoP"] > 1)]
-df_012camera = df[(df["Cam"]<= 2) & (df["NoP"] > 1)]
+df_345camera = df[(df["Cam"] > 2) & (df["NoP"] > 1) & (df["NoP"] < 6)]
+df_012camera = df[(df["Cam"]<= 2) & (df["NoP"] > 1) & (df["NoP"] < 6)]
 
 # 필터링된 데이터프레임에서 샘플링하기
 df_sample_012camera = df_012camera.sample(n=8947, random_state=1)
