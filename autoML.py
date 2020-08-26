@@ -7,8 +7,8 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/Users/jp/Downloads/prehension_c
 
 # Google AutoML API function
 def deploy():
-    # Senosr data Crawling
-    URL = "http://15.164.250.196//"
+    # Sensor data Crawling
+    URL = "http://13.125.216.41/"
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -21,7 +21,7 @@ def deploy():
 
     #우선은 센서1에 대해서만 진행 --> src_list[0] 이 Sensor 1 and so on...
     s = requests.Session()
-    r = s.get(f"http://15.164.250.196/{src_list[0]}")
+    r = s.get(f"http://13.125.216.41/{src_list[0]}")
 
     soup = BeautifulSoup(r.content, "html.parser")
     li = soup.prettify().split('\r\n')
