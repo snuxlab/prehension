@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from google.cloud import automl_v1beta1 as automl
 import os
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "/Users/jp/Downloads/prehension_credential.json"
+# switch to AWS directory
 
 # Google AutoML API function
 def deploy():
@@ -22,6 +23,10 @@ def deploy():
     #우선은 센서1에 대해서만 진행 --> src_list[0] 이 Sensor 1 and so on...
     s = requests.Session()
     r = s.get(f"http://13.125.216.41/{src_list[0]}")
+    # r = s.get(f"http://13.125.216.41/{src_list[1]}")
+    # r = s.get(f"http://13.125.216.41/{src_list[2]}")
+    # r = s.get(f"http://13.125.216.41/{src_list[3]}")
+    # r = s.get(f"http://13.125.216.41/{src_list[4]}")
 
     soup = BeautifulSoup(r.content, "html.parser")
     li = soup.prettify().split('\r\n')
@@ -44,9 +49,7 @@ def deploy():
     data_t10 = li[1].split(',')
     data_t20 = li[2].split(',')
     data_t30 = li[3].split(',')
-    data_t40 = li[4].split(',')
-    data_t50 = li[5].split(',')
-    moving_data = [data_t10, data_t20, data_t30, data_t40, data_t50]
+    moving_data = [data_t10, data_t20, data_t30]
 
     MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar = 0, 0, 0, 0, 0
     for data in moving_data:
@@ -68,7 +71,7 @@ def deploy():
     # TODO(developer): Uncomment and set the following variables
     project_id = 'prehension-282501'
     compute_region = 'us-central1'
-    model_display_name = 'moving_average_01n'
+    model_display_name = 'final_0825_og_model'
     inputs = {'SSIM': final_list[0],
             'Sound': final_list[1],
             'MSE': final_list[2],
@@ -102,6 +105,7 @@ def deploy():
         class_name.append(result.tables.value.string_value)
         class_score.append(result.tables.score)
 
+        ## original API code (commented out)
         # print("Predicted class name: {}".format(result.tables.value.string_value))
         # print("Predicted class score: {}".format(result.tables.score))
 

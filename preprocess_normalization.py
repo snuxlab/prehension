@@ -23,6 +23,8 @@ def min_max_normalize(df):
 
   return df
 
+# import finalized sampled csv file
+# order: 5sensor -> normalization -> column
 df = pd.read_csv("/content/sensor_sampled.csv", delimiter=',')
 z_df = z_score_normalize(df)
 mm_df = min_max_normalize(z_df)
