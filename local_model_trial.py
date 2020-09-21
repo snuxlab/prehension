@@ -108,10 +108,12 @@ print(pd.Series(result))
 n_batches = 1
 est = tf.estimator.BoostedTreesClassifier(feature_columns, n_batches_per_layer=n_batches)
 
+#%%
 # The model will stop training once the specified number of trees is built, not
 # based on the number of steps.
 est.train(train_input_fn, max_steps=100)
 
+#%%
 # Eval.
 result = est.evaluate(eval_input_fn)
 clear_output()
@@ -137,3 +139,5 @@ plt.xlim(0,)
 plt.ylim(0,)
 plt.show()
 
+
+# %%
