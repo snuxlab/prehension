@@ -170,7 +170,7 @@ print('Class 2 Score: ', roc_auc_score(y_true[:, 2], y2))
 
 #%%
 
-fpr, tpr, _ = roc_curve(y_true[:, 2], y2)
+fpr, tpr, _ = roc_curve(y_true[:, 0], y0)
 plt.plot(fpr, tpr)
 plt.title('ROC curve')
 plt.xlabel('false positive rate')
