@@ -83,10 +83,24 @@ def make_input_fn(X, y, n_epochs=None, shuffle=True):
     return dataset
   return input_fn
 
-
 # Training and evaluation input functions.
 train_input_fn = make_input_fn(train_data, y_train)
 eval_input_fn = make_input_fn(eval_data, y_eval, shuffle=False, n_epochs=1)
+
+#%%
+# inputs = {'MSE': 132.09,
+#           'SSIM': 0.03,
+#           'Sound': 12.32525914,
+#           'Radar': 66,
+#           'PIR': 1,
+#           'MSE_MA': 45.97,
+#           'SSIM_MA': 0.02,
+#           'Sound_MA': 12.38,
+#           'Radar_MA': 62,
+#           'PIR_MA': 0.25
+#           }
+
+pred_input_fn = make_input_fn(eval_data[888:889], None, shuffle=False, n_epochs=1)
 
 #%%
 # Train a linear classifier (logistic regression model) to establish a benchmark.
@@ -116,6 +130,25 @@ est.train(train_input_fn, max_steps=300)
 result = est.evaluate(eval_input_fn)
 clear_output()
 print(pd.Series(result))
+
+#%%
+# need to make serving_input_receiver_fn() for inputs
+def serving_input_receiver_fn():
+  mse = tf.placeholder(dtype=tf.float32, name='MSE')
+  ssim = tf.placeholder(dtype=tf.float32, name='SSIM')
+  sound = tf.placeholder(dtype=tf.float32, name='Sound')
+  radar = tf.placeholder(dtype=tf.float32, name='Radar')
+  pir = tf.placeholder(dtype=tf.float32, name='PIR')
+  mse_ma = tf.placeholder(dtype=tf.float32, name='MSE_MA')
+  ssim_ma = tf.placeholder(dtype=tf.float32, name='SSIM_MA')
+  sound_ma = tf.placeholder(dtype=tf.float32, name='Sound_MA')
+  radar_ma = tf.placeholder(dtype=tf.float32, name='Radar_MA')
+  pir_ma = tf.placeholder(dtype=tf.float32, name='PIR_MA')
+
+est.export_saved_model('saved_model', serving_input_receiver_fn)
+
+#%%
+pred_test = list(est.predict(pred_input_fn))
 
 #%%
 # predictions from the trained model

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        
+        <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0"> -->
+        <!-- <script src="../js/jquery-latest.min.js"></script> -->
+        
+        <!-- stylesheet -->
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="main">
+            <table>
+                <tbody>
+                    <tr class="top">
+                        <td id="top-left-location">2층 공용주방</td>
+                        <td id="top-right-live">Live</td>
+                    </tr>
+                    <tr>
+                        <td id="top-left-date"> </td>
+                        <td id="top-right-weather"></td>
+                    </tr>
+                    <tr>
+                        <td id="current-time" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td id="status" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td id="estimate" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td id="confidence" colspan="2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sub">
+            <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script>
+        function updateClock() {
+            var now = new Date(); // current date
+            var months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            var time = now.getHours() + ':' + now.getMinutes(); // again, you get the idea
+
+            var date = now.getFullYear()+"년 " + months[now.getMonth()] + " " + now.getDate() + "일";
+            // set the content of the element with the ID time to the formatted string
+            document.getElementById('top-left-date').innerHTML = date;
+            document.getElementById('current-time').innerHTML = time;
+
+            // call this function again in 1000ms
+            setTimeout(updateClock, 1000);
+        }
+        updateClock(); // initial call
+    </script>
+</html>
