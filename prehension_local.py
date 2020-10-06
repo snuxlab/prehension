@@ -133,19 +133,19 @@ print(pd.Series(result))
 
 #%%
 # need to make serving_input_receiver_fn() for inputs
-def serving_input_receiver_fn():
-  mse = tf.placeholder(dtype=tf.float32, name='MSE')
-  ssim = tf.placeholder(dtype=tf.float32, name='SSIM')
-  sound = tf.placeholder(dtype=tf.float32, name='Sound')
-  radar = tf.placeholder(dtype=tf.float32, name='Radar')
-  pir = tf.placeholder(dtype=tf.float32, name='PIR')
-  mse_ma = tf.placeholder(dtype=tf.float32, name='MSE_MA')
-  ssim_ma = tf.placeholder(dtype=tf.float32, name='SSIM_MA')
-  sound_ma = tf.placeholder(dtype=tf.float32, name='Sound_MA')
-  radar_ma = tf.placeholder(dtype=tf.float32, name='Radar_MA')
-  pir_ma = tf.placeholder(dtype=tf.float32, name='PIR_MA')
+# def serving_input_receiver_fn():
+#   mse = tf.placeholder(dtype=tf.float32, name='MSE')
+#   ssim = tf.placeholder(dtype=tf.float32, name='SSIM')
+#   sound = tf.placeholder(dtype=tf.float32, name='Sound')
+#   radar = tf.placeholder(dtype=tf.float32, name='Radar')
+#   pir = tf.placeholder(dtype=tf.float32, name='PIR')
+#   mse_ma = tf.placeholder(dtype=tf.float32, name='MSE_MA')
+#   ssim_ma = tf.placeholder(dtype=tf.float32, name='SSIM_MA')
+#   sound_ma = tf.placeholder(dtype=tf.float32, name='Sound_MA')
+#   radar_ma = tf.placeholder(dtype=tf.float32, name='Radar_MA')
+#   pir_ma = tf.placeholder(dtype=tf.float32, name='PIR_MA')
 
-est.export_saved_model('saved_model', serving_input_receiver_fn)
+# est.export_saved_model('saved_model', serving_input_receiver_fn)
 
 #%%
 pred_test = list(est.predict(pred_input_fn))

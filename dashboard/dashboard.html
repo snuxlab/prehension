@@ -19,7 +19,7 @@
                         <td id="top-right-live">Live</td>
                     </tr>
                     <tr>
-                        <td id="top-left-date"> </td>
+                        <td id="top-left-date"></td>
                         <td id="top-right-weather"></td>
                     </tr>
                     <tr>
@@ -29,10 +29,10 @@
                         <td id="status" colspan="2"></td>
                     </tr>
                     <tr>
-                        <td id="estimate" colspan="2"></td>
+                        <td id="estimate" colspan="2">예측값: </td>
                     </tr>
                     <tr>
-                        <td id="confidence" colspan="2"></td>
+                        <td id="confidence" colspan="2">정확도: </td>
                     </tr>
                 </tbody>
             </table>
@@ -87,7 +87,7 @@
         function updateClock() {
             var now = new Date(); // current date
             var months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-            var time = now.getHours() + ':' + now.getMinutes(); // again, you get the idea
+            var time = '현재시간: ' + now.getHours() + '시 ' + now.getMinutes() + '분'; // again, you get the idea
 
             var date = now.getFullYear()+"년 " + months[now.getMonth()] + " " + now.getDate() + "일";
             // set the content of the element with the ID time to the formatted string
