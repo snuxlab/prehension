@@ -1,11 +1,13 @@
 ## local model trial -- version 0.1
-## date: 2020/09/15
+## created: 2020/09/15
 ## author: minjoon
+## last edited: 2020/10/13
 
 #%%
 import pandas as pd
 import numpy as np
 import tensorflow as tf
+from tensorflow import keras
 
 from numpy.random import RandomState
 from IPython.display import clear_output
