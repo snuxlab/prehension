@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import sklearn
+import joblib
 
 # import necessary modules
 from tensorflow import keras
@@ -27,15 +28,18 @@ df.columns
 df['NoP'].replace(['n'], 2, inplace=True)
 
 # %%
-# set target column, and normalize data
+# set target column, load and normalize data
 target_column = ['NoP']
 predictors = list(set(list(df.columns)) - set(target_column))
-df[predictors] = df[predictors]/df[predictors].max()
+
+# load scaler
+scaler = joblib.load('scaler.save')
+df[predictors] = scaler.fit_transform(df[predictors])
 df.describe()
 
 # %%
 # load model
-model = keras.models.load_model('prehension_v1_e50')
+model = keras.models.load_model('prehension_v1')
 
 # %%
 test = df.loc[3561]

@@ -113,3 +113,9 @@ print(answer, probs)
 model.save('prehension_v1')
 
 # %%
+import joblib
+
+scaler_filename = "scaler.save"
+joblib.dump(scaler, scaler_filename)
+
+# %%
