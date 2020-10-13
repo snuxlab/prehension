@@ -45,7 +45,7 @@ eval_data.drop('index', axis=1, inplace=True)
 
 
 #%%
-# CATEGORICAL_COLUMNS = ['sex', 'n_siblings_spouses', 'parch', 'class', 'deck', 'embark_town', 'alone']
+# create numerical columns for model training
 tf.random.set_seed(123)
 
 NUMERIC_COLUMNS = train_data.columns.tolist()
@@ -53,20 +53,6 @@ feature_columns = []
 
 for feature_name in NUMERIC_COLUMNS:
   feature_columns.append(tf.feature_column.numeric_column(feature_name, dtype=tf.float64))
-
-# def one_hot_cat_column(feature_name, vocab):
-#   return tf.feature_column.indicator_column(
-#     tf.feature_column.categorical_column_with_vocabulary_list(feature_name, vocab))
-
-
-
-# for feature_name in CATEGORICAL_COLUMNS:
-#   # Need to one-hot encode categorical features.
-#   vocabulary = train_data[feature_name].unique()
-#   feature_columns.append(one_hot_cat_column(feature_name, vocabulary))
-
-# for feature_name in NUMERIC_COLUMNS:
-#   feature_columns.append(tf.feature_column.numeric_column(feature_name, dtype=tf.float32))
 
 
 # %%
@@ -116,7 +102,8 @@ result = linear_est.evaluate(eval_input_fn)
 clear_output()
 print(pd.Series(result))
 
-# %%
+#%%
+# train a boosted tree classifier
 # Since data fits into memory, use entire dataset per layer. It will be faster.
 # Above one batch is defined as the entire dataset.
 n_batches = 1
@@ -133,21 +120,10 @@ result = est.evaluate(eval_input_fn)
 clear_output()
 print(pd.Series(result))
 
-#%%
-# need to make serving_input_receiver_fn() for inputs
-# def serving_input_receiver_fn():
-#   mse = tf.placeholder(dtype=tf.float32, name='MSE')
-#   ssim = tf.placeholder(dtype=tf.float32, name='SSIM')
-#   sound = tf.placeholder(dtype=tf.float32, name='Sound')
-#   radar = tf.placeholder(dtype=tf.float32, name='Radar')
-#   pir = tf.placeholder(dtype=tf.float32, name='PIR')
-#   mse_ma = tf.placeholder(dtype=tf.float32, name='MSE_MA')
-#   ssim_ma = tf.placeholder(dtype=tf.float32, name='SSIM_MA')
-#   sound_ma = tf.placeholder(dtype=tf.float32, name='Sound_MA')
-#   radar_ma = tf.placeholder(dtype=tf.float32, name='Radar_MA')
-#   pir_ma = tf.placeholder(dtype=tf.float32, name='PIR_MA')
+#%% save model section
+# tf.saved_model.save(est, './saved_model')
+est.summary()
 
-# est.export_saved_model('saved_model', serving_input_receiver_fn)
 
 #%%
 pred_test = list(est.predict(pred_input_fn))
