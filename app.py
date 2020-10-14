@@ -2,8 +2,8 @@ from flask import Flask, render_template
 import threading
 import random
 
-import predictor1, predictor2, predictor3 
-# GOOGLE AUTOML API function
+# import predictor_s1, predictor2, predictor3 
+import predictor_s1
 
 app = Flask(__name__)
 
@@ -16,12 +16,12 @@ def hello():
 def dashboard1():
     # class name = NoP
     # class precision = precision
-    class_name, class_precision = predictor1.deploy()
-    if(class_name == '0'):
+    class_name, class_precision = predictor_s1.deploy()
+    if(class_name == 0):
         result_name = 'Empty'
-    elif(class_name == '1'):
+    elif(class_name == 1):
         result_name = 'Occupied'
-    elif(class_name == 'n'):
+    elif(class_name == 2):
         result_name = 'Crowded'     # Empty/Occupied/Crowded
     return render_template('index.html', name=class_name, result=result_name, precision=class_precision)
 

@@ -18,6 +18,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 from math import sqrt 
 from scipy.stats import zscore
+import joblib
 
 # keras specific
 from tensorflow.keras.utils import to_categorical
@@ -39,21 +40,27 @@ df.columns
 df['NoP'].replace(['n'], 2, inplace=True)
 
 # %%
-# set target column, and normalize data
+# set target column
 target_column = ['NoP']
 predictors = list(set(list(df.columns)) - set(target_column))
 
-scaler = MinMaxScaler()
-df[predictors] = scaler.fit_transform(df[predictors])
+# scaler = StandardScaler()
+# df[predictors] = scaler.fit_transform(df[predictors])
 
 # df[predictors] = df[predictors]/df[predictors].max()
-df.describe()
+# df.describe()
 # %%
-# create training and testing datasets
+# create training and testing datasets, normalize data
 X = df[predictors].values
 y = df[target_column].values
 
+scaler = MinMaxScaler()
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=43)
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.fit_transform(X_test)
+
 print(X_train.shape)
 print(X_test.shape)
 
@@ -96,7 +103,7 @@ print('Accuracy on test data: {}% \n Error on test data: {}'.format(
     scores2[1], 1 - scores2[1]))
 
 # %%
-test = df.loc[20001]
+test = df.loc[4]
 print(test['NoP'])
 
 test.drop(['NoP'], inplace=True)
@@ -109,13 +116,10 @@ answer = probs.argmax(axis=-1)
 print(answer, probs)
 
 # %%
-# save model
-model.save('prehension_v1')
+# save model and scaler
+model.save('model/prehension_v1')
 
-# %%
-import joblib
-
-scaler_filename = "scaler.save"
+scaler_filename = 'model/scaler.save'
 joblib.dump(scaler, scaler_filename)
 
 # %%
