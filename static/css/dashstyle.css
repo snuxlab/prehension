@@ -1,11 +1,12 @@
-/* google font import - IBM Plex Sans - Regular & Bold */
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap");
-
 /* .main table td {
   border-style: solid;
   border-color: black;
   border-width: 2px;
 } */
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
 
 .window {
   width: 100%;
@@ -59,18 +60,18 @@
   width: 100%;
 }
 #status {
-  font-size: 260px;
+  font-size: 250px;
   text-align: left;
   font-weight: bold;
 }
 
 #estimate {
-  font-size: 60px;
+  font-size: 40px;
   text-align: left;
   padding-left: 10px;
 }
 #confidence {
-  font-size: 60px;
+  font-size: 40px;
   text-align: left;
   padding-left: 10px;
 }

@@ -3,15 +3,10 @@ import math
 from bs4 import BeautifulSoup
 
 # import libraries for keras model and scaler
-import tensorflow as tf
 from tensorflow import keras
 import joblib
 import numpy as np
 import sklearn
-
-# load model and scaler
-model = keras.models.load_model('model/prehension_v1')
-scaler = joblib.load('model/scaler.save')
 
 # Google AutoML API function
 def deploy():
@@ -29,8 +24,8 @@ def deploy():
 
     #우선은 센서1에 대해서만 진행 --> src_list[0] 이 Sensor 1 and so on...
     s = requests.Session()
-    r = s.get(f"http://13.125.216.41/{src_list[0]}")
-    # r = s.get(f"http://13.125.216.41/{src_list[1]}")
+    # r = s.get(f"http://13.125.216.41/{src_list[0]}")
+    r = s.get(f"http://13.125.216.41/{src_list[1]}")
     # r = s.get(f"http://13.125.216.41/{src_list[2]}")
     # r = s.get(f"http://13.125.216.41/{src_list[3]}")
     # r = s.get(f"http://13.125.216.41/{src_list[4]}")
@@ -74,18 +69,19 @@ def deploy():
     ma_final_list = [MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar]
     print("MA Final List: ", ma_final_list)
 
+    # load model and scaler
+    model = keras.models.load_model('model/prehension_v1')
+    scaler = joblib.load('model/scaler.save')
+
     # create final list and apply scaler (MinMax) before feeding into model
     input_pre = [
         MSE, SSIM_1, log_Sound, Radar, PIR, MA_MSE, MA_SSIM_1, MA_log_Sound, MA_Radar, MA_PIR]
     input_pre = np.asarray(input_pre).astype(np.float32)
     input_scaled = scaler.transform(input_pre.reshape(1,-1))
-    input_scaled = tf.convert_to_tensor(input_scaled)
-    
-    pred = model.predict(input_scaled)
+
+    pred = model.predict([input_scaled,])
     result_class = pred.argmax(axis=-1)[0]
     result_score = round(pred[0][result_class] * 100, 2)
-
-    # print(result_class, result_score)
 
     return(result_class, result_score)
     

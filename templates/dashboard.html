@@ -10,7 +10,10 @@
     <!-- stylesheet -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
+    </style>
+    <link rel="stylesheet" href="static/css/dashstyle.css" />
   </head>
   <body>
     <div class="window">
@@ -18,7 +21,7 @@
         <table id="tb">
           <tbody>
             <tr class="top">
-              <td id="top-left-location">1층 공용주방</td>
+              <td id="top-left-location">1층 리빙랩</td>
               <td id="top-right-live">
                 <i
                   class="fas fa-circle"
@@ -168,37 +171,36 @@
       document.getElementById("top-left-date").innerHTML = date;
       document.getElementById("current-time").innerHTML = time;
 
-      if (now.getMinutes() % 3 == 0) {
+      
+      var status = {{name}};
+
+      if (status == 0) {
         // 비었다고 하고 배경을 크림색으로 바꾼다
         document.getElementById("status").innerHTML = "비었어요";
         document.getElementById("tb").style.backgroundColor = "ivory";
         document.getElementById("tb").style.color = "black";
-      } else if (now.getMinutes() % 3 == 1) {
+        // 몇 명인지 표시 
+        document.getElementById("estimate").innerHTML = "예측값: 0명";
+        // 정확도 표시 
+        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
+      } else if (status == 1) {
         // 널널하다를 넣고 배경을 초록색으로 바꾼다
         document.getElementById("status").innerHTML = "널널해요";
         document.getElementById("tb").style.backgroundColor = "green";
         document.getElementById("tb").style.color = "white";
+        // 몇 명인지 표시 
+        document.getElementById("estimate").innerHTML = "예측값: 1명";
+        // 정확도 표시 
+        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
       } else {
         // 북적북적 넣고 배경을 보라색으로
         document.getElementById("status").innerHTML = "북적북적";
         document.getElementById("tb").style.backgroundColor = "blueviolet";
         document.getElementById("tb").style.color = "white";
-      }
-
-      if (now.getMinutes() % 3 == 0) {
-        document.getElementById("estimate").innerHTML = "예측값: 0명";
-      } else if (now.getMinutes() % 3 == 1) {
-        document.getElementById("estimate").innerHTML = "예측값: 1명";
-      } else {
+        // 몇 명인지 표시 
         document.getElementById("estimate").innerHTML = "예측값: 여러명";
-      }
-
-      if (now.getMinutes() % 3 == 0) {
-        document.getElementById("confidence").innerHTML = "정확도: 93.2%";
-      } else if (now.getMinutes() % 3 == 1) {
-        document.getElementById("confidence").innerHTML = "정확도: 92.4%";
-      } else {
-        document.getElementById("confidence").innerHTML = "정확도: 97.7%";
+        // 정확도 표시 
+        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
       }
 
       // call this function again in 500ms
