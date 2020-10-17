@@ -10,6 +10,8 @@
     <!-- stylesheet -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
     <style>
       @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
     </style>
@@ -158,7 +160,7 @@
         "12월",
       ];
       var time =
-        "현재시간: " + now.getHours() + "시 " + now.getMinutes() + "분"; // again, you get the idea
+        "현재 시간: " + now.getHours() + "시 " + now.getMinutes() + "분 " + now.getSeconds() + "초"; // again, you get the idea
 
       var date =
         now.getFullYear() +
@@ -172,39 +174,54 @@
       document.getElementById("current-time").innerHTML = time;
 
       
-      var status = {{name}};
+      // var status = {{name}};
 
-      if (status == 0) {
-        // 비었다고 하고 배경을 크림색으로 바꾼다
-        document.getElementById("status").innerHTML = "비었어요";
-        document.getElementById("tb").style.backgroundColor = "ivory";
-        document.getElementById("tb").style.color = "black";
-        // 몇 명인지 표시 
-        document.getElementById("estimate").innerHTML = "예측값: 0명";
-        // 정확도 표시 
-        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
-      } else if (status == 1) {
-        // 널널하다를 넣고 배경을 초록색으로 바꾼다
-        document.getElementById("status").innerHTML = "널널해요";
-        document.getElementById("tb").style.backgroundColor = "green";
-        document.getElementById("tb").style.color = "white";
-        // 몇 명인지 표시 
-        document.getElementById("estimate").innerHTML = "예측값: 1명";
-        // 정확도 표시 
-        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
-      } else {
-        // 북적북적 넣고 배경을 보라색으로
-        document.getElementById("status").innerHTML = "북적북적";
-        document.getElementById("tb").style.backgroundColor = "blueviolet";
-        document.getElementById("tb").style.color = "white";
-        // 몇 명인지 표시 
-        document.getElementById("estimate").innerHTML = "예측값: 여러명";
-        // 정확도 표시 
-        document.getElementById("confidence").innerHTML = "정확도: " + '{{precision}}' + '%';
-      }
+      $.ajax({
+        type: "GET",
+        url: 'http://127.0.0.1:5000/api',
+        dataType: 'json',
+        success: function (data) {
+          // console.log(data.nop_1, data.precision_1);
+          var nop1 = data.nop_1;
+          var prec1 = data.precision_1;
+
+          if (nop1 == 0) {
+            // 비었다고 하고 배경을 크림색으로 바꾼다
+            document.getElementById("status").innerHTML = "비었어요";
+            document.getElementById("tb").style.backgroundColor = "ivory";
+            document.getElementById("tb").style.color = "black";
+            // 몇 명인지 표시 
+            document.getElementById("estimate").innerHTML = "예측값: 0명";
+            // 정확도 표시 
+            document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
+          } else if (nop1 == 1) {
+            // 널널하다를 넣고 배경을 초록색으로 바꾼다
+            document.getElementById("status").innerHTML = "널널해요";
+            document.getElementById("tb").style.backgroundColor = "green";
+            document.getElementById("tb").style.color = "white";
+            // 몇 명인지 표시 
+            document.getElementById("estimate").innerHTML = "예측값: 1명";
+            // 정확도 표시 
+            document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
+          } else {
+            // 북적북적 넣고 배경을 보라색으로
+            document.getElementById("status").innerHTML = "북적북적";
+            document.getElementById("tb").style.backgroundColor = "blueviolet";
+            document.getElementById("tb").style.color = "white";
+            // 몇 명인지 표시 
+            document.getElementById("estimate").innerHTML = "예측값: 여러명";
+            // 정확도 표시 
+            document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
+          }
+
+          
+        }
+      });
+      // var data = JSON.parse(xhr.responseText);
+      // console.log(data.nop_1, data.precision_1);
 
       // call this function again in 500ms
-      setTimeout(updateClock, 500);
+      setTimeout(updateClock, 1000);
     }
     updateClock(); // initial call
   </script>
