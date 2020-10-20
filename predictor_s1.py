@@ -10,6 +10,8 @@ import numpy as np
 import sklearn
 
 # load model and scaler
+# comment out scaler if importing v2 &
+# make inputs input_pre only on lines 80-85
 model = keras.models.load_model('model/prehension_v1')
 scaler = joblib.load('model/scaler.save')
 
@@ -84,8 +86,6 @@ def deploy():
     pred = model.predict(input_scaled)
     result_class = pred.argmax(axis=-1)[0]
     result_score = round(pred[0][result_class] * 100, 2)
-
-    # print(result_class, result_score)
 
     return(result_class, result_score)
     

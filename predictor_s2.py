@@ -8,6 +8,12 @@ import joblib
 import numpy as np
 import sklearn
 
+# load model and scaler
+# comment out scaler if importing v2 &
+# make inputs input_pre only on lines 80-85
+model = keras.models.load_model('model/prehension_v1')
+scaler = joblib.load('model/scaler.save')
+
 # Google AutoML API function
 def deploy():
     # Sensor data Crawling
@@ -68,10 +74,6 @@ def deploy():
 
     ma_final_list = [MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar]
     print("MA Final List: ", ma_final_list)
-
-    # load model and scaler
-    model = keras.models.load_model('model/prehension_v1')
-    scaler = joblib.load('model/scaler.save')
 
     # create final list and apply scaler (MinMax) before feeding into model
     input_pre = [
