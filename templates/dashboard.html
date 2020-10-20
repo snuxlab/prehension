@@ -34,8 +34,9 @@
             </tr>
             <tr>
               <td id="top-left-date"></td>
-              <td id="top-right-weather">
-                <i class="fas fa-cloud-sun" style="font-size: 50px"></i> 23°C
+              <td id="count">
+                <p id="prev"></p>
+                <p id="current"></p>
               </td>
             </tr>
             <tr>
@@ -55,94 +56,126 @@
       </div>
 
       <div class="sub">
-        <table>
-          <tbody>
-            <tr>
-              <td id="thirdfloor" colspan="1">3F</td>
-              <td id="thirdfloor-dash" colspan="2"><hr width="103%" /></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="laundry">세탁실</td>
-              <td id="laundry-icon">
-                <i class="fas fa-user-alt"></i>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="kitchen-301">301 간이주방</td>
-              <td id="kitchen-301-icon">
-                <i class="fas fa-user-alt"></i>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="kitchen-302">302 간이주방</td>
-              <td id="kitchen-302-icon"><i class="fas fa-user-alt"></i></td>
-            </tr>
-            <tr>
-              <td id="secondfloor" colspan="1">2F</td>
-              <td id="secondfloor-dash" colspan="2"><hr width="103%" /></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="homestudio">홈스튜디오</td>
-              <td id="homestudio-icon">
-                <i class="fas fa-users"></i>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="kitchen-201">201 간이주방</td>
-              <td id="kitchen-201-icon">
-                <i class="fas fa-user-alt"></i>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="kitchen-202">202 간이주방</td>
-              <td id="kitchen-202-icon">
-                <i class="fas fa-user-alt"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td id="firstfloor" colspan="1">1F</td>
-              <td id="thirdfloor-dash" colspan="2"><hr width="103%" /></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="kitchen">공용주방</td>
-              <td id="kitchen-icon">
-                <i class="fas fa-users"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td></td>
-              <td id="lounge">라운지</td>
-              <td id="lounge-icon">
-                <i class="fas fa-users"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td id="basement" colspan="1">B1</td>
-              <td id="basement-dash" colspan="2"><hr /></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td id="gym">헬스장</td>
-              <td id="gym-icon">
-                <i class="fas fa-user-alt"></i>
-              </td>
-            </tr>
-          </tbody>
+        <table id="history">
+          <!-- table add goes here -->
         </table>
       </div>
     </div>
   </body>
-  <script>
+  <script type="application/javascript">
+    // Create a constructor for the fixed-length queue. This is
+    // really more of a FACTORY than a construtor since an
+    // entirely tangential object is returned.
+    function FixedQueue(size, initialValues) {
+
+      // If there are no initial arguments, default it to
+      // an empty value so we can call the constructor in
+      // a uniform way.
+      initialValues = (initialValues || []);
+
+      // Create the fixed queue array value.
+      var queue = Array.apply(null, initialValues);
+
+      // Store the fixed size in the queue.
+      queue.fixedSize = size;
+
+      // Add the class methods to the queue. Some of these have
+      // to override the native Array methods in order to make
+      // sure the queue lenght is maintained.
+      queue.push = FixedQueue.push;
+      queue.splice = FixedQueue.splice;
+      queue.unshift = FixedQueue.unshift;
+
+      // Trim any initial excess from the queue.
+      FixedQueue.trimTail.call(queue);
+
+      // Return the new queue.
+      return (queue);
+
+    }
+
+    // I trim the queue down to the appropriate size, removing
+    // items from the beginning of the internal array.
+    FixedQueue.trimHead = function () {
+
+      // Check to see if any trimming needs to be performed.
+      if (this.length <= this.fixedSize) {
+        // No trimming, return out.
+        return;
+      }
+
+      // Trim whatever is beyond the fixed size.
+      Array.prototype.splice.call(
+        this,
+        0,
+        (this.length - this.fixedSize)
+      );
+
+    };
+
+
+    // I trim the queue down to the appropriate size, removing
+    // items from the end of the internal array.
+    FixedQueue.trimTail = function () {
+
+      // Check to see if any trimming needs to be performed.
+      if (this.length <= this.fixedSize) {
+        // No trimming, return out.
+        return;
+      }
+
+      // Trim whatever is beyond the fixed size.
+      Array.prototype.splice.call(
+        this,
+        this.fixedSize,
+        (this.length - this.fixedSize)
+      );
+
+    };
+
+
+    // I synthesize wrapper methods that call the native Array
+    // methods followed by a trimming method.
+    FixedQueue.wrapMethod = function (methodName, trimMethod) {
+
+      // Create a wrapper that calls the given method.
+      var wrapper = function () {
+
+        // Get the native Array method.
+        var method = Array.prototype[methodName];
+
+        // Call the native method first.
+        var result = method.apply(this, arguments);
+
+        // Trim the queue now that it's been augmented.
+        trimMethod.call(this);
+
+        // Return the original value.
+        return (result);
+      };
+
+      // Return the wrapper method.
+      return (wrapper);
+    };
+
+
+    // Wrap the native methods.
+    FixedQueue.push = FixedQueue.wrapMethod(
+      "push",
+      FixedQueue.trimHead
+    );
+
+    FixedQueue.splice = FixedQueue.wrapMethod(
+      "splice",
+      FixedQueue.trimTail
+    );
+
+    FixedQueue.unshift = FixedQueue.wrapMethod(
+      "unshift",
+      FixedQueue.trimTail
+    );
+  </script>
+  <script type="application/javascript">    
     function updateClock() {
       var now = new Date(); // current date
       var months = [
@@ -175,10 +208,21 @@
 
       
       // var status = {{name}};
+      // var data = JSON.parse(xhr.responseText);
+      // console.log(data.nop_1, data.precision_1);
 
+      // call this function again in 500ms
+      setTimeout(updateClock, 1000);
+    }
+
+    let history = FixedQueue(15, [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    let count = 1;
+    let prev = 0;
+
+    function updateStatus() {
       $.ajax({
         type: "GET",
-        url: 'http://127.0.0.1:5000/api',
+        url: 'http://127.0.0.1:5000/api2',
         dataType: 'json',
         success: function (data) {
           // console.log(data.nop_1, data.precision_1);
@@ -214,15 +258,45 @@
             document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
           }
 
+          history.unshift(nop1);
+
+          if (nop1 == history[1]) {
+            count = count+1;
+          }
+          else {
+            prev = count;
+            count = 1;
+          }
+
+          document.getElementById("prev").innerHTML = "Prev: " + prev;
+          document.getElementById("current").innerHTML = "Current: " + count;
+
+          var histcontent = "";
+          $.each(history, function (rowNumber, rowData) {
+            if (rowData == 0) {
+              histcontent += "<tr class=\"nop0\" style=\" background-color: ivory; color: black;\">";
+              histcontent += "<td>" + rowData + "</td>";
+              histcontent += "</tr>";
+            }
+            else if (rowData == 1) {
+              histcontent += "<tr class=\"nop1\" style=\" background-color: green; color: black;\">";
+              histcontent += "<td>" + rowData + "</td>";
+              histcontent += "</tr>";
+            } else {
+              histcontent += "<tr class=\"nop2\" style=\" background-color: blueviolet; color: white;\">";
+              histcontent += "<td>" + rowData + "+</td>";
+              histcontent += "</tr>";
+            }
+          });
+          $('#history').html(histcontent);
+
           
         }
       });
-      // var data = JSON.parse(xhr.responseText);
-      // console.log(data.nop_1, data.precision_1);
-
-      // call this function again in 500ms
-      setTimeout(updateClock, 1000);
+      setTimeout(updateStatus, 30000);
     }
+
     updateClock(); // initial call
+    updateStatus();
   </script>
 </html>

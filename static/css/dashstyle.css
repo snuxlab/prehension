@@ -15,13 +15,14 @@ body {
 
 .main {
   width: 70%;
+  height: 100vh;;
   /* padding: 10px; */
   float: left;
 }
 
 #tb {
   width: 100%;
-  height: 927px;
+  height: 100vh;
   /* height: 959px; */
   /* background-color: blueviolet; */
   color: white;
@@ -46,10 +47,14 @@ body {
   text-align: left;
   padding-left: 10px;
 }
-#top-right-weather {
-  font-size: 50px;
+#count {
+  font-size: 25px;
   text-align: right;
   padding-right: 30px;
+}
+
+#count #current {
+  font-size: 50px;
 }
 
 #current-time {
@@ -76,147 +81,15 @@ body {
   padding-left: 10px;
 }
 
-/* .sub table td {
-  border-style: solid;
-  border-color: black;
-  border-width: 2px;
-} */
-
 .sub {
   width: 30%;
+  height: 100vh;
   float: right;
-  /* padding: 10px; */
 }
 
 .sub table {
   width: 100%;
-  height: 932px;
-  background-color: rgb(56, 56, 56);
-  color: white;
-  border-spacing: 20px;
-  /* border-radius: 20px; */
-}
-
-#thirdfloor {
-  font-size: 30px;
-  padding-left: 20px;
-  font-weight: bold;
-}
-
-#laundry {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#laundry-icon {
-  font-size: 30px;
+  height: 100vh;
   text-align: center;
-  color: transparent;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: white;
-}
-
-#kitchen-301 {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-
-#kitchen-301-icon {
-  font-size: 30px;
-  text-align: center;
-  color: transparent;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: white;
-}
-
-#kitchen-302 {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-
-#kitchen-302-icon {
-  font-size: 30px;
-  text-align: center;
-}
-
-#secondfloor {
-  font-size: 30px;
-  padding-left: 20px;
-  font-weight: bold;
-}
-
-#homestudio {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#homestudio-icon {
-  font-size: 30px;
-  text-align: center;
-}
-
-#kitchen-201 {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#kitchen-201-icon {
-  font-size: 30px;
-  text-align: center;
-}
-
-#kitchen-202 {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#kitchen-202-icon {
-  font-size: 30px;
-  text-align: center;
-  color: transparent;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: white;
-}
-
-#firstfloor {
-  font-size: 30px;
-  padding-left: 20px;
-  font-weight: bold;
-}
-
-#kitchen {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#kitchen-icon {
-  font-size: 30px;
-  text-align: center;
-}
-#lounge {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#lounge-icon {
-  font-size: 30px;
-  text-align: center;
-}
-
-#basement {
-  font-size: 30px;
-  padding-left: 20px;
-  font-weight: bold;
-}
-
-#gym {
-  font-size: 30px;
-  text-align: right;
-  padding-right: 30px;
-}
-#gym-icon {
-  font-size: 30px;
-  text-align: center;
+  font-size: 24px;
 }
