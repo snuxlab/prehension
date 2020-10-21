@@ -45,6 +45,7 @@ body {
   font-size: 30px;
   text-align: right;
   padding-right: 30px;
+  animation: blink 1.7s linear infinite;
 }
 
 #top-left-date {
@@ -81,17 +82,14 @@ body {
   font-size: 230px;
   text-align: left;
   font-weight: bold;
+  margin: 0;
 }
 
-#estimate {
-  font-size: 40px;
-  text-align: left;
-  padding-left: 10px;
-}
 #confidence {
   font-size: 40px;
   text-align: left;
   padding-left: 10px;
+  margin: 0;
 }
 
 .sub {
