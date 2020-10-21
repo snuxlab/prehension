@@ -3,6 +3,7 @@ import math
 from bs4 import BeautifulSoup
 
 # import libraries for keras model and scaler
+import tensorflow as tf
 from tensorflow import keras
 import joblib
 import numpy as np
@@ -78,8 +79,17 @@ def deploy():
     # create final list and apply scaler (MinMax) before feeding into model
     input_pre = [
         MSE, SSIM_1, log_Sound, Radar, PIR, MA_MSE, MA_SSIM_1, MA_log_Sound, MA_Radar, MA_PIR]
+
     input_pre = np.asarray(input_pre).astype(np.float32)
+
+    # prehension_v1 w/ scaler
     input_scaled = scaler.transform(input_pre.reshape(1,-1))
+
+    #prehension_v2 w/o scaler
+    # input_scaled = input_pre.reshape(1,-1)
+
+
+    input_scaled = tf.convert_to_tensor(input_scaled)
 
     pred = model.predict([input_scaled,])
     result_class = pred.argmax(axis=-1)[0]

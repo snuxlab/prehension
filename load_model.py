@@ -39,14 +39,16 @@ df.describe()
 
 # %%
 # load model
-model = keras.models.load_model('prehension_v1')
+model = keras.models.load_model('model/prehension_v2')
 
 # %%
-test = df.loc[3561]
+test = df.loc[20100]
+print(test['NoP'])
 test.drop(['NoP'], inplace=True)
 testinput = np.asarray(test).astype(np.float32)
 
 # %%
 probs = model.predict(np.array([testinput,]))
 answer = probs.argmax(axis=-1)
+print(probs, answer)
 # %%

@@ -274,18 +274,39 @@
           var histcontent = "";
           $.each(history, function (rowNumber, rowData) {
             if (rowData == 0) {
-              histcontent += "<tr class=\"nop0\" style=\" background-color: ivory; color: black;\">";
-              histcontent += "<td>" + rowData + "</td>";
-              histcontent += "</tr>";
+              if (rowNumber == 0) {
+                histcontent += "<tr class=\"nop0\" style=\" background-color: ivory; color: black;\">";
+                histcontent += "<td><i class='fas fa-carrot' style='margin-left: -46px;'></i>&nbsp&nbsp&nbsp&nbsp" + rowData + "</td>";
+                histcontent += "</tr>";
+              }
+              else {
+                histcontent += "<tr class=\"nop0\" style=\" background-color: ivory; color: black;\">";
+                histcontent += "<td>" + rowData + "</td>";
+                histcontent += "</tr>";
+              }
             }
             else if (rowData == 1) {
-              histcontent += "<tr class=\"nop1\" style=\" background-color: green; color: black;\">";
-              histcontent += "<td>" + rowData + "</td>";
-              histcontent += "</tr>";
+              if (rowNumber == 0) {
+                histcontent += "<tr class=\"nop1\" style=\" background-color: green; color: black;\">";
+                histcontent += "<td><i class='fas fa-carrot' style='margin-left: -46px;'></i>&nbsp&nbsp&nbsp&nbsp" + rowData + "</td>";
+                histcontent += "</tr>";
+              }
+              else {
+                histcontent += "<tr class=\"nop1\" style=\" background-color: green; color: black;\">";
+                histcontent += "<td>" + rowData + "</td>";
+                histcontent += "</tr>";
+              }
             } else {
-              histcontent += "<tr class=\"nop2\" style=\" background-color: blueviolet; color: white;\">";
-              histcontent += "<td>" + rowData + "+</td>";
-              histcontent += "</tr>";
+              if (rowNumber == 0) {
+                histcontent += "<tr class=\"nop2\" style=\" background-color: blueviolet; color: white;\">";
+                histcontent += "<td><i class='fas fa-carrot' style='margin-left: -46px;'></i>&nbsp&nbsp&nbsp&nbsp" + rowData + "+</td>";
+                histcontent += "</tr>";
+              }
+              else {
+                histcontent += "<tr class=\"nop2\" style=\" background-color: blueviolet; color: white;\">";
+                histcontent += "<td>" + rowData + "+</td>";
+                histcontent += "</tr>";
+              }
             }
           });
           $('#history').html(histcontent);
