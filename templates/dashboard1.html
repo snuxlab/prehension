@@ -23,24 +23,24 @@
         <table id="tb">
           <tbody>
             <tr class="top">
-              <td id="top-left-location">1층 리빙랩</td>
+              <td id="top-left-date"></td>
               <td id="top-right-live">
                 <i
                   class="fas fa-circle"
-                  style="color: greenyellow; font-size: 15px"
+                  style="color: greenyellow; font-size: 15px; vertical-align: middle;"
                 ></i>
                 Live
               </td>
             </tr>
             <tr>
-              <td id="top-left-date"></td>
+              <td id="current-time"></td>
               <td id="count">
-                <p id="prev"></p>
                 <p id="current"></p>
+                <p id="prev"></p>
               </td>
-            </tr>
+            </tr> 
             <tr>
-              <td id="current-time" colspan="2"></td>
+              <td id="top-left-location" colspan="2">1층 리빙랩</td>
             </tr>
             <tr>
               <td id="status" colspan="2"></td>
@@ -193,7 +193,7 @@
         "12월",
       ];
       var time =
-        "현재 시간: " + now.getHours() + "시 " + now.getMinutes() + "분 " + now.getSeconds() + "초"; // again, you get the idea
+        now.getHours() + "시 " + now.getMinutes() + "분 " + now.getSeconds() + "초"; // again, you get the idea
 
       var date =
         now.getFullYear() +
@@ -268,7 +268,7 @@
             count = 1;
           }
 
-          document.getElementById("prev").innerHTML = "Prev: " + prev;
+          document.getElementById("prev").innerHTML = "Prev:&nbsp&nbsp" + prev;
           document.getElementById("current").innerHTML = "Current: " + count;
 
           var histcontent = "";

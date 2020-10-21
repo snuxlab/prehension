@@ -29,12 +29,16 @@ body {
   /* border-radius: 20px; */
 }
 
+#top {
+  vertical-align: bottom;
+}
+
 #top-left-location {
   font-size: 60px;
+  font-weight: bold;
   text-align: left;
   padding-left: 10px;
-  padding-top: 10px;
-  font-weight: bold;
+  width: 100%;
 }
 #top-right-live {
   font-size: 30px;
@@ -43,29 +47,37 @@ body {
 }
 
 #top-left-date {
-  font-size: 50px;
+  font-size: 30px;
   text-align: left;
   padding-left: 10px;
+  padding-top: 10px;
 }
+
 #count {
   font-size: 25px;
   text-align: right;
   padding-right: 30px;
+  vertical-align: top;
+}
+
+#prev {
+  margin-top: 0;
 }
 
 #count #current {
-  font-size: 50px;
+  font-size: 30px;
+  margin: 0;
 }
 
 #current-time {
-  font-size: 50px;
+  font-size: 30px;
   text-align: left;
   padding-left: 10px;
-  /* padding-top: 250px; */
-  width: 100%;
+  vertical-align: top;
 }
+
 #status {
-  font-size: 250px;
+  font-size: 230px;
   text-align: left;
   font-weight: bold;
 }
