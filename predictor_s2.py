@@ -40,7 +40,7 @@ def deploy():
     soup = BeautifulSoup(r.content, "html.parser")
     li = soup.prettify().split('\r\n')
 
-    data_t = li[0].split(',')
+    data_t = li[5].split(',')
 
     SSIM_1 = round(1-float(data_t[3]), 2)
     if int(data_t[4]) <= 0:
@@ -55,9 +55,9 @@ def deploy():
     print("Final List: ", final_list)
 
 
-    data_t10 = li[1].split(',')
-    data_t20 = li[2].split(',')
-    data_t30 = li[3].split(',')
+    data_t10 = li[4].split(',')
+    data_t20 = li[3].split(',')
+    data_t30 = li[2].split(',')
     moving_data = [data_t10, data_t20, data_t30]
 
     MA_SSIM_1, MA_log_Sound, MA_MSE, MA_PIR, MA_Radar = 0, 0, 0, 0, 0

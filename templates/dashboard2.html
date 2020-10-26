@@ -39,7 +39,7 @@
             </td>
           </tr>
           <tr>
-            <td id="top-left-location" colspan="2"><i class="fa fa-map-marker"></i>&nbsp&nbsp1층 공용주방</td>
+            <td id="top-left-location" colspan="2"><i class="fa fa-map-pin"></i>&nbsp&nbsp1층 리빙랩</td>
           </tr>
           <tr>
             <td id="status" colspan="2"></td>
@@ -230,8 +230,6 @@
           document.getElementById("status").innerHTML = "비었어요";
           document.getElementById("tb").style.backgroundColor = "ivory";
           document.getElementById("tb").style.color = "black";
-          // 몇 명인지 표시 
-          document.getElementById("estimate").innerHTML = "예측값: 0명";
           // 정확도 표시 
           document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
         } else if (nop1 == 1) {
@@ -239,8 +237,6 @@
           document.getElementById("status").innerHTML = "널널해요";
           document.getElementById("tb").style.backgroundColor = "green";
           document.getElementById("tb").style.color = "white";
-          // 몇 명인지 표시 
-          document.getElementById("estimate").innerHTML = "예측값: 1명";
           // 정확도 표시 
           document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
         } else {
@@ -248,8 +244,6 @@
           document.getElementById("status").innerHTML = "북적북적";
           document.getElementById("tb").style.backgroundColor = "blueviolet";
           document.getElementById("tb").style.color = "white";
-          // 몇 명인지 표시 
-          document.getElementById("estimate").innerHTML = "예측값: 여러명";
           // 정확도 표시 
           document.getElementById("confidence").innerHTML = "정확도: " + prec1 + '%';
         }

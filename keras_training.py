@@ -54,12 +54,11 @@ predictors = list(set(list(df.columns)) - set(target_column))
 X = df[predictors].values
 y = df[target_column].values
 
-# scaler = MinMaxScaler()
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=43)
 
-# X_train = scaler.fit_transform(X_train)
-# X_test = scaler.fit_transform(X_test)
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
 print(X_train.shape)
 print(X_test.shape)
@@ -103,7 +102,7 @@ print('Accuracy on test data: {}% \n Error on test data: {}'.format(
     scores2[1], 1 - scores2[1]))
 
 # %%
-test = df.loc[4]
+test = df.loc[20002]
 print(test['NoP'])
 
 test.drop(['NoP'], inplace=True)
@@ -117,9 +116,9 @@ print(answer, probs)
 
 # %%
 # save model and scaler
-model.save('model/prehension_v2')
+model.save('model/prehension_v1')
 
-# scaler_filename = 'model/scaler.save'
-# joblib.dump(scaler, scaler_filename)
+scaler_filename = 'model/scaler.save'
+joblib.dump(scaler, scaler_filename)
 
 # %%
