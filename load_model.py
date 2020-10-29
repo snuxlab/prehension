@@ -33,16 +33,16 @@ target_column = ['NoP']
 predictors = list(set(list(df.columns)) - set(target_column))
 
 # load scaler
-scaler = joblib.load('scaler.save')
+scaler = joblib.load('model/scaler.save')
 df[predictors] = scaler.fit_transform(df[predictors])
 df.describe()
 
 # %%
 # load model
-model = keras.models.load_model('model/prehension_v2')
+model = keras.models.load_model('model/prehension_v1')
 
 # %%
-test = df.loc[20100]
+test = df.loc[20001]
 print(test['NoP'])
 test.drop(['NoP'], inplace=True)
 testinput = np.asarray(test).astype(np.float32)

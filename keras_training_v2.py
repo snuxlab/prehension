@@ -111,7 +111,7 @@ print('Accuracy on test data: {}% \n Error on test data: {}'.format(
     scores2[1], 1 - scores2[1]))
 
 # %%
-test = df.loc[10]
+test = df.loc[10100]
 print(test['NoP'], test['Hour'])
 
 test.drop(['NoP'], inplace=True)
@@ -128,5 +128,11 @@ result_class = pred.argmax(axis=-1)[0]
 result_score = round(pred[0][result_class] * 100, 2)
 
 print(result_class, result_score)
+
+# %%
+model.save('model/prehension_v3')
+
+scaler_filename = 'model/scaler3.save'
+joblib.dump(scaler, scaler_filename)
 
 # %%
