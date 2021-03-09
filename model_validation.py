@@ -61,6 +61,6 @@ checkans['Predicted'] = result_class
 checkans['Hour'] = df['Hour']
 checkans['Time'] = df['Time']
 
-checkans.to_csv('data/test1-results.csv')
+checkans.to_csv('data/test1-v1results.csv')
 
 # %%

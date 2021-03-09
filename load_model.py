@@ -12,15 +12,17 @@ from tensorflow import keras
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from math import sqrt
+from tensorflow.keras.utils import to_categorical
 
 # %%
 # Load dataset.
-df = pd.read_csv('data/sensor_sampled_ma-2020-08-25T07-49-22.611Z.csv')
+df = pd.read_csv('data/test1.csv')
 df.head()
 
 # %%
 # drop unused columns in dataframe
-df.drop(columns=['Date', 'Time', 'Cam'], inplace=True)
+time = df['Time']
+df.drop(columns=['Date', 'Time', 'Hour'], inplace=True)
 df.columns
 
 # %%
@@ -42,13 +44,27 @@ df.describe()
 model = keras.models.load_model('model/prehension_v1')
 
 # %%
-test = df.loc[20001]
-print(test['NoP'])
-test.drop(['NoP'], inplace=True)
+test = df[predictors]
+# print(test['NoP'])
+# test.drop(['NoP'], inplace=True)
 testinput = np.asarray(test).astype(np.float32)
 
 # %%
-probs = model.predict(np.array([testinput,]))
-answer = probs.argmax(axis=-1)
-print(probs, answer)
+answers = to_categorical(df['NoP'].values, 3)
+pred_test = model.predict(testinput)
+scores2 = model.evaluate(testinput, answers, verbose=0)
+print('Accuracy on test data: {}% \n Error on test data: {}'.format(
+    scores2[1], 1 - scores2[1]))
+
+# %%
+# labeled vs. predicted comparison
+result_class = pred_test.argmax(axis=-1)
+
+checkans = pd.DataFrame()
+checkans['Time'] = time
+checkans['Labeled'] = df['NoP']
+checkans['Predicted'] = result_class
+
+checkans.to_csv('data/test1-v1results.csv')
+
 # %%
